@@ -2,7 +2,7 @@ import 'package:ehlel/blocs/index.dart';
 import 'package:ehlel/global_keys.dart';
 import 'package:ehlel/providers/index.dart';
 import 'package:ehlel/routes/index.dart';
-import 'package:ehlel/screens/auth/login/index.dart';
+import 'package:ehlel/screens/auth/splash/index.dart';
 import 'package:ehlel/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
         routes: routes,
         theme: myTheme,
         navigatorKey: GlobalKeys.navigatorKey,
-        // home: const SplashPage(),
-        home: const LoginPage(),
+        home: const SplashPage(),
+        // home: const LoginPage(),
       ),
     );
   }

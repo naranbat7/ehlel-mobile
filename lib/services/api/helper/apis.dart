@@ -1,7 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 class Apis {
-  static const BASE_URL = "http://10.10.203.13:8080";
+  static const BASE_URL = "http://192.168.1.156:8080";
   static const LOGIN = "/login";
   static const REGISTER = "/register";
   static const PRODUCT = "/product";
