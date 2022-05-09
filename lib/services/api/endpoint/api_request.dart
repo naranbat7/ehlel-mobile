@@ -24,21 +24,11 @@ class ApiRequest {
     return dio
       ..interceptors.add(
         InterceptorsWrapper(
-          onError: (error, handler) async {
-            if (error.type == DioErrorType.connectTimeout || error.type == DioErrorType.receiveTimeout || error.type == DioErrorType.other) {
-              return handler.next(CustomException(message: "Интернэт холболтоо шалгана уу"));
-            } else {
-              return handler.next(error);
-            }
-          },
           onResponse: (response, handler) async {
             CustomException? handledError;
             String message = "";
-            if (response.statusCode == 500) {
-              handledError = CustomException(message: "Сервертэй холбогдоход алдаа гарлаа", statusCode: response.statusCode);
-            } else if (!(response.statusCode == 200 || response.statusCode == 201)) {
+            if (!(response.statusCode == 200 || response.statusCode == 201)) {
               message = response.data;
-              printMsg("Aldaa: ");
               printMsg(response);
               handledError = CustomException(message: message, statusCode: 400);
             }

@@ -44,11 +44,40 @@ class ApiHelper {
   }
 
   static Future<Response> addressList() async {
-    return await EndPoint.getRequest(path: Apis.ADDRESS + "/$_userId");
+    return await EndPoint.getRequest(path: Apis.ADDRESS);
   }
 
   static Future<Response> addAddress(AddressModel data) async {
     return await EndPoint.postRequest(path: Apis.ADDRESS, data: data.toJson());
+  }
+
+  static Future<Response> addOrder(String addressId, int point) async {
+    var _products = MainProvider.provider.cart.toJson()['products'];
+    var products = _products
+        .map((e) => (e as Map<String, dynamic>).map((key, value) {
+              if (key == '_id') return MapEntry(key, null);
+              return MapEntry(key, value);
+            }))
+        .toList();
+
+    var data = {
+      "user": _userId,
+      "products": products,
+      "address": addressId,
+      "point": point,
+    };
+    print(data);
+    return await EndPoint.postRequest(
+      path: Apis.ORDER,
+      data: {
+        "user": "6270a92c9703a864c0d9c931",
+        "products": [
+          {"_id": null, "product": "6254ff09ed584227b7ca5886", "quantity": 1}
+        ],
+        "address": "6274f3162eacb042bd5762f9",
+        "point": 90
+      },
+    );
   }
 
   static String? get _userId => MainProvider.provider.user?.id;

@@ -1,3 +1,4 @@
+import 'package:ehlel/blocs/index.dart';
 import 'package:ehlel/routes/index.dart';
 import 'package:ehlel/screens/main/home/index.dart';
 import 'package:ehlel/screens/main/products/index.dart';
@@ -21,7 +22,7 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-    // MainBloc.bloc.add(GetAddress());
+    MainBloc.bloc.add(GetAddress());
   }
 
   void _setIndex(int value) {

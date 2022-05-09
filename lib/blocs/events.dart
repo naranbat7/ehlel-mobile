@@ -65,3 +65,13 @@ class AddAddress extends MainEvent {
   @override
   List<Object?> get props => [];
 }
+
+class AddOrder extends MainEvent {
+  final String addressId;
+  final int point;
+
+  AddOrder({required this.addressId, required this.point}) : super([]);
+
+  @override
+  List<Object?> get props => [];
+}

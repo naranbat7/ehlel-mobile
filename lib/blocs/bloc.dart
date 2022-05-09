@@ -125,9 +125,22 @@ class MainBloc extends Bloc<MainEvent, MainState> {
     } else if (event is AddAddress) {
       yield MainLoading();
       try {
-        await ApiHelper.addAddress(event.data);
-        MainProvider.provider.addAddress(event.data);
+        Response res = await ApiHelper.addAddress(event.data);
+        MainProvider.provider.addAddress(AddressModel.fromJson(res.data));
         yield MainSuccessful();
+      } on CustomException catch (ex) {
+        printMsg("error: " + ex.message);
+        yield MainFailure(error: ex.message);
+      } catch (ex) {
+        printMsg("error: " + ex.toString());
+        yield MainFailure(error: "Алдаа гарлаа.");
+      }
+    } else if (event is AddOrder) {
+      yield MainLoading();
+      try {
+        Response res = await ApiHelper.addOrder(event.addressId, event.point);
+        print(res.data);
+        yield MainOrderSuccessful(res.data['qPay_shortUrl']);
       } on CustomException catch (ex) {
         printMsg("error: " + ex.message);
         yield MainFailure(error: ex.message);

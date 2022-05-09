@@ -1,5 +1,6 @@
 import 'package:ehlel/blocs/index.dart';
 import 'package:ehlel/providers/index.dart';
+import 'package:ehlel/screens/main/qpay/index.dart';
 import 'package:ehlel/services/dialog/index.dart';
 import 'package:ehlel/utils/regex.dart';
 import 'package:ehlel/widgets/address_tile.dart';
@@ -19,14 +20,18 @@ class AddOrderPage extends StatefulWidget {
 class _AddOrderPageState extends State<AddOrderPage> {
   final _bloc = MainBloc();
   final _formKey = GlobalKey<FormState>();
-  final _pointCtrl = TextEditingController(text: '0');
-  int? _addressIdx;
+  final _pointCtrl = TextEditingController();
+  String? _addressId;
 
-  _onPress() {}
+  _onPress() {
+    if (_formKey.currentState!.validate() && _addressId != null) {
+      _bloc.add(AddOrder(addressId: _addressId!, point: int.parse(_pointCtrl.text)));
+    }
+  }
 
-  _setAddress(int index) {
+  _setAddress(String? id) {
     setState(() {
-      _addressIdx = index;
+      _addressId = id;
     });
   }
 
@@ -40,8 +45,10 @@ class _AddOrderPageState extends State<AddOrderPage> {
             if (state is MainLoading) {
               LoaderWidget.showLoadingDialog();
             }
-            if (state is MainSuccessful) {
+            if (state is MainOrderSuccessful) {
               LoaderWidget.hideLoadingDialog();
+              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (_) => QPayPage(state.url)));
             }
             if (state is MainFailure) {
               LoaderWidget.hideLoadingDialog();
@@ -85,8 +92,8 @@ class _AddOrderPageState extends State<AddOrderPage> {
                                 ...List.generate(provider.addresses.length, ((index) {
                                   var item = provider.addresses[index];
                                   return InkWell(
-                                    onTap: () => _setAddress(index),
-                                    child: AddressTile(item, isActive: _addressIdx == index),
+                                    onTap: () => _setAddress(item.id),
+                                    child: AddressTile(item, isActive: _addressId == item.id),
                                   );
                                 })),
                                 const SizedBox(height: 30),

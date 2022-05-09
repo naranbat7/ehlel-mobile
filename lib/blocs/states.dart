@@ -29,6 +29,10 @@ class MainSuccessful extends MainState {
 }
 
 class MainOrderSuccessful extends MainState {
+  final String url;
+
+  const MainOrderSuccessful(this.url) : super();
+
   @override
   List<Object?> get props => [];
 }
