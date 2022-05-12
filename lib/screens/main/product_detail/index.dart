@@ -1,4 +1,5 @@
 import 'package:ehlel/models/product/index.dart';
+import 'package:ehlel/providers/index.dart';
 import 'package:ehlel/routes/index.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,7 @@ class ProductDetailPage extends StatelessWidget {
   const ProductDetailPage(this.item, {Key? key}) : super(key: key);
 
   _onPress(context) {
+    MainProvider.provider.addCart(item.id);
     Navigator.pushNamed(context, cartRoute);
   }
 
